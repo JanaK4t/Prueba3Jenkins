@@ -20,8 +20,10 @@ pipeline {
         stage('Analyze') {
             steps {
                 echo "Iniciando análisis de calidad y seguridad estática con SonarQube Scanner..."
-                echo "Revisando vulnerabilidades, bugs y code smells..."
-                echo "Quality Gate de SonarQube: PASSED."
+                echo "ALERTA CRÍTICA: Vulnerabilidad detectada en el código fuente."
+                echo "Vulnerabilidad: CWE-89 (Inyección SQL)"
+                echo "Detalle: Uso de concatenación directa en consulta a base de datos (f-strings)."
+                error("Quality Gate de SonarQube: FAILED. Se bloquea el paso a producción por motivos de seguridad.")
             }
         }
         
