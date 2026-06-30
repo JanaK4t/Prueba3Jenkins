@@ -35,7 +35,7 @@ pipeline {
 
         stage('Security Test') {
             steps {
-                echo "--- INICIANDO ESCANEO DE DEPENDENCIAS ---"
+                echo "Iniciando scaneo de dependencias"
                 echo "Ejecutando OWASP Dependency-Check..."
                 echo "Reporte generado: 0 vulnerabilidades CVE detectadas en librerías."
                 
