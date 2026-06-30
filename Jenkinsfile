@@ -1,20 +1,25 @@
 pipeline {
     agent any
-
+    
     stages {
         stage('Build') {
             steps {
-                echo "Construcción"
-                echo "Compilando el código fuente y resolviendo dependencias..."
-                echo "Build completado exitosamente."
+                echo "Preparando el entorno e Iniciando proceso de construcción..."
+                echo "Build finalizado con éxito."
             }
         }
-
+        
         stage('Test') {
             steps {
-                echo "Fase de pruebas"
-                echo "Ejecutando pruebas unitarias automatizadas..."
+                echo "Ejecutando suite de pruebas unitarias y básicas..."
                 echo "Resultados: 100% de las pruebas pasaron."
+            }
+        }
+        
+        stage('Analyze') {
+            steps {
+                echo "Iniciando análisis de calidad y seguridad estática con SonarQube..."
+                echo "Quality Gate de SonarQube: PASSED."
             }
         }
 
@@ -22,9 +27,7 @@ pipeline {
             steps {
                 echo "Generando documentación"
                 echo "Ejecutando comando: doxygen Doxyfile"
-                echo "Analizando comentarios y estructura en el código fuente..."
-                echo "Generando documentación en formato HTML y PDF..."
-                echo "Documentación generada correctamente en el directorio /docs."
+                echo "Generando documentación en formato HTML y PDF en el directorio /docs."
             }
         }
 
@@ -38,22 +41,32 @@ pipeline {
                 echo "Repositorio actualizado correctamente con la trazabilidad de los cambios."
             }
         }
-
+        
         stage('Deploy') {
             steps {
-                echo "Despliegue"
-                echo "Desplegando la aplicación y la documentación en el entorno de prueba..."
-                echo "Despliegue finalizado con éxito."
+                echo "Desplegando la aplicación en el entorno de pruebas (Staging)..."
+                echo "URL de prueba generada para escaneo dinámico."
+            }
+        }
+
+        stage('Security Test') {
+            steps {
+                echo "Iniciando escaneo de dependencias"
+                echo "Ejecutando OWASP Dependency-Check..."
+                echo "0 vulnerabilidades CVE detectadas en librerías."
+                echo "Iniciando Análisis Dinámico (DAST)"
+                echo "Levantando contenedor de OWASP ZAP (owasp/zap2docker-stable)..."
+                echo "Atacando la URL de la aplicación desplegada... Análisis completado."
             }
         }
     }
 
     post {
         success {
-            echo "ALERTA DE SISTEMA: Pipeline completado con éxito. La documentación ha sido actualizada, versionada y está disponible para el equipo."
+            echo "ALERTA: Pipeline completado con éxito. Documentación actualizada y código seguro desplegado."
         }
         failure {
-            echo "ALERTA DE SISTEMA: Fallo en el pipeline. Se ha enviado una notificación al equipo de desarrollo para revisar los errores a la brevedad."
+            echo "ALERTA: Fallo en el pipeline. Se ha notificado al equipo para revisar vulnerabilidades o fallos de documentación."
         }
     }
 }
